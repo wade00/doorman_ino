@@ -1,5 +1,6 @@
 int lightSensor = A0;
 int lightSensorReading = 0;
+int interval = 5000;
 bool lightOn = false;
 
 void setup() {
@@ -8,6 +9,11 @@ void setup() {
 }
 
 void loop() {
+    if (Time.hour() > 8 && Time.hour() < 18) {
+        interval = 5000;
+    } else {
+        interval = 3600000;
+    }
     lightSensorReading = analogRead(lightSensor);
     if (lightSensorReading > 1000 && !lightOn) {
         lightOn = true;
@@ -16,5 +22,5 @@ void loop() {
         lightOn = false;
         Particle.publish("lightTurnedOff");
     }
-    delay(10000);
+    delay(interval);
 }
